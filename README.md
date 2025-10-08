@@ -21,12 +21,12 @@ Moreover, a html is generated to help the reading process
 3. Install required dependencies:
    ```bash
    pip install requests
-
+4. Install [https://github.com/Badestrand/russian-dictionary](https://github.com/Badestrand/russian-dictionary) files in ./dictionary subdirectory (the files used are verbs.csv,nouns.cvs,adjectives.csv). If /Badestrand/russian-dictionary is installed in diffent path, change global variable "DICTIONARY_PATH"
 
 ##   Basic Usage
 Prerequisites
 
-Place the following CSV files in the same directory as the Python script:
+The following CSV files in the same ./dictionary subdirectory as the Python script:
 
 * nouns.csv
 * verbs.csv
@@ -52,7 +52,7 @@ text
 
 ### CSV Files
 The CSV files shoud contain one line for each word with all its inflected forms.
-The files used here, come from https://en.openrussian.org as publised in n github directory [Badestrand/russian-dictionary](https://github.com/Badestrand/russian-dictionary)
+The files suggeste here, from https://en.openrussian.org as publised in n github directory [Badestrand/russian-dictionary](https://github.com/Badestrand/russian-dictionary)
 and have the following structure:
 * nouns.csv 
   * Col1     : bare form
@@ -102,7 +102,7 @@ The system processes text through several stages:
     Applies clean CSS styling
 
 ## Awknowlegments
-The russian dictionary data comes from  [https://en.openrussian.org.](https://en.openrussian.org.) as publised in github directory [Badestrand/russian-dictionary](https://github.com/Badestrand/russian-dictionary) 
+The russian dictionary suggested here  comes from  [https://en.openrussian.org.](https://en.openrussian.org.) as publised in github directory [Badestrand/russian-dictionary](https://github.com/Badestrand/russian-dictionary) 
 The code and a portion of the documentation has been cleaned using a LLM
 
 ## Disclaimer
