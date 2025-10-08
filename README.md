@@ -26,11 +26,11 @@ Moreover, a html is generated to help the reading process
 ##   Basic Usage
 Prerequisites
 
-The following CSV files in the same ./dictionary subdirectory as the Python script:
+The following CSV files are used by the Python script:
 
-* nouns.csv
-* verbs.csv
-* adjectives.csv
+* ./dictionary/nouns.csv
+* ./dictionary/verbs.csv
+* ./dictionary/adjectives.csv
 
 ### Running the Tool
 
