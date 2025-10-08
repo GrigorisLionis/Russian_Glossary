@@ -5,7 +5,7 @@ A Python tool that processes Russian text files and generates interactive glossa
 
 ## Rationale
 
-A great learning tool for learning a languge is a word glossary in the beggining of a text. This simple script provides such a glossary for a given text. 
+A great learning tool for learning a languge is a word glossary in the beggining of a text. This simple script generates such a glossary for any  given text. 
 Moreover, a html is generated to help the reading process 
 
 ## Features
