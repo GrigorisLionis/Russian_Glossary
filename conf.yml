@@ -1,0 +1,84 @@
+Path: ./dictionary/
+---
+Filename: nouns.csv
+Category: nouns
+Delimiter: "\t"
+Word : 1
+Translation : 3
+Length : 22
+Inflected : 
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16 
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
+  - 22
+...
+---
+Filename: verbs.csv
+Category: verbs
+Delimiter: "\t"
+Word : 1
+Translation : 3
+Length : 18
+Inflected : 
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16 
+  - 17
+  - 18
+...
+---
+Filename: adjectives.csv
+Category: adjectives
+Delimiter: "\t"
+Word : 1
+Translation : 3
+Length : 34
+Inflected : 
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16 
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+  - 26
+  - 27
+  - 28
+  - 29
+  - 30
+  - 31
+  - 32
+  - 33
+  - 34
+

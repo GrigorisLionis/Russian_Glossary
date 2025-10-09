@@ -5,9 +5,121 @@ import sys
 import requests
 import json
 import time
+import yaml
+from pathlib import Path
+
+from yaml.loader import SafeLoader
 from html import escape
 from typing import Dict, List, Union, Optional, Any
 
+
+
+def load_conf():
+
+    with open("conf.yml", 'r') as f:
+       yaml_data = list(yaml.load_all(f, Loader=SafeLoader))
+       return(yaml_data)
+    
+
+
+def load_conf():
+
+    with open("conf.yml", 'r') as f:
+       yaml_data = list(yaml.load_all(f, Loader=SafeLoader))
+       return(yaml_data)
+
+
+def load_words(filename,delimiter,length,word_position,translation_position,inflected,cat,words,lemmata):
+    with open(filename, 'r',encoding="utf8") as file:
+        for line in file:
+            elements = line.strip().split(delimiter)
+            #print(elements)
+            if len(elements) < length or elements[word_position-1]=="bare":
+                continue 
+            w=elements[word_position-1]
+            w=unicodedata.normalize('NFKD',w).capitalize()
+            engmeaning=elements[translation_position-1].replace(";",",").split(",") 
+            for i in inflected:
+                    elements[i-1]=elements[i-1].replace("'","").strip()
+                    lemma=elements[i-1]
+                    if(lemma==""):
+                       continue
+                    lemma=unicodedata.normalize('NFKD',lemma).capitalize()   
+                    lemmata[lemma]=w
+            words[w]={"cat":cat,"translation":engmeaning}
+        return words,lemmata    
+
+
+
+def load_dictionaries():
+
+    words={}
+    lemmata={}
+    if not Path("conf.yml").exists():
+       print("Error, Configuration file does not exist")
+       exit()
+    data=load_conf()
+    print(data)
+    print(len(data))
+    path=data[0]["Path"]
+
+    for i in range(1,len(data)):
+        filename=data[i]["Filename"]
+        delimiter=data[i]["Delimiter"]
+        category=data[i]["Category"]
+        word_position=data[i]["Word"]
+        translation_position=data[i]["Translation"]
+        inflected=data[i]["Inflected"]
+        length=data[i]["Length"]
+    
+        if Path(path+filename).exists():
+             words,lemmata=load_words(path+filename,delimiter,length,word_position,translation_position,inflected,category,words,lemmata)
+  
+    return words,lemmata
+
+
+
+
+
+
+def download_file_if_missing(filename, download_url):
+    """
+    Check if a file exists in current directory, download it if missing.
+    
+    Args:
+        filename (str): Name of the file to check/download
+        download_url (str): URL to download the file from
+    
+    Returns:
+        bool: True if file exists or was successfully downloaded, False otherwise
+    """
+    
+    # Check if file already exists
+    if os.path.exists(filename):
+        print(f"File '{filename}' already exists in current directory.")
+        return True
+    
+    print(f"File '{filename}' not found. Downloading from {download_url}...")
+    
+    try:
+        # Send GET request to download the file
+        response = requests.get(download_url, stream=True)
+        response.raise_for_status()  # Raise an exception for bad status codes
+        
+        # Write the file in binary mode
+        with open(filename, 'wb') as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+        
+        print(f"Successfully downloaded '{filename}'")
+        return True
+        
+    except requests.exceptions.RequestException as e:
+        print(f"Error downloading file: {e}")
+        return False
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return False
 
 
 def check_url(words: List[str], max_retries: int = 3) -> Dict[str, str]:
@@ -66,61 +178,7 @@ def check_list(words: List[str]) -> Dict[str, str]:
     
     return {**first_batch, **remaining_batch}
 
-
-
-def load_words():
-    with open("nouns.csv", 'r',encoding="utf8") as file:
-        words={}
-        lemmata={}
-        for line in file:
-            elements = line.strip().split("\t")
-            if len(elements) < 22 or elements[0]=="bare":
-                continue 
-            w=elements[0]
-            w=unicodedata.normalize('NFKD',w).capitalize()
-            engmeaning=elements[2].replace(";",",").split(",") 
-            for i in range(10,22):
-                    elements[i]=elements[i].replace("'","").strip()
-                    lemma=elements[i]
-                    if(lemma==""):
-                       continue
-                    lemma=unicodedata.normalize('NFKD',lemma).capitalize()   
-                    lemmata[lemma]=w
-            words[w]={"cat":"noun","translation":engmeaning}
-    with open("verbs.csv", 'r',encoding="utf8") as file1:
-         for line in file1:
-            elements = line.strip().split("\t")
-            if len(elements) < 18 or elements[0]=="bare":
-                continue 
-            w=elements[0]
-            w=unicodedata.normalize('NFKD',w).capitalize()
-
-            engmeaning=elements[2].replace(";",",").split(",") 
-            for i in range(5,15):
-                    elements[i]=elements[i].replace("'","").strip()
-                    lemma=elements[i]
-                    if(lemma==""):
-                       continue
-                    lemma=unicodedata.normalize('NFKD',lemma).capitalize()   
-                    lemmata[lemma]=w
-            words[w]={"cat":"verb","translation":engmeaning}       
-    with open("adjectives.csv", 'r',encoding="utf8") as file2:
-         for line in file2:
-            elements = line.strip().split("\t")
-            if len(elements) < 34 or elements[0]=="bare":
-                continue 
-            w=elements[0]
-            w=unicodedata.normalize('NFKD',w).capitalize()
-            engmeaning=elements[2].replace(";",",").split(",") 
-            for i in range(4,33):
-                    elements[i]=elements[i].replace("'","").strip()
-                    lemma=elements[i]
-                    if(lemma==""):
-                       continue
-                    lemma=unicodedata.normalize('NFKD',lemma).capitalize()   
-                    lemmata[lemma]=w
-            words[w]={"cat":"adjective","translation":engmeaning}         
-    return words,lemmata            
+         
 
 
 def load_text(filename):
@@ -313,11 +371,16 @@ def print_glossary(glossary,lemmata,words) -> None:
 
 
 
+
 def main():
+
     filename=sys.argv[1]
+    
+    
     """Main function to run the application."""
     try:
-        words,lemmata = load_words()
+       
+        words,lemmata = load_dictionaries() 
         text,fulltext=load_text(filename)
         glossary=comp_gloss(text,lemmata)
        
