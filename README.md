@@ -5,8 +5,9 @@ A Python tool that processes Russian text files and generates interactive glossa
 
 ## Rationale
 
-A great learning tool for learning a languge is a word glossary in the beggining of a text. This simple script generates such a glossary for any  given text. 
-Moreover, a html is generated to help the reading process 
+A great  tool for learning a languge is a word glossary in the beggining of a text. This simple script generates such a glossary for any  given text. 
+
+Moreover, using the text, an interactive html is generated to help the reading process, where the translation is included for each word as a popup, and each word is clickable, with a link to the appropriate wiktionary (english) lemma.  
 
 ## Features
 
@@ -21,7 +22,7 @@ Moreover, a html is generated to help the reading process
 3. Install required dependencies:
    ```bash
    pip install requests
-4. Install [https://github.com/Badestrand/russian-dictionary](https://github.com/Badestrand/russian-dictionary) files in ./dictionary subdirectory (the files used are verbs.csv,nouns.cvs,adjectives.csv). If /Badestrand/russian-dictionary is installed in diffent path, change global variable "DICTIONARY_PATH"
+4. Install [https://github.com/Badestrand/russian-dictionary](https://github.com/Badestrand/russian-dictionary) files in ./dictionary subdirectory (the files used are verbs.csv,nouns.cvs,adjectives.csv). If /Badestrand/russian-dictionary is installed in diffent path, change Path, in the configuration file
 
 ##   Basic Usage
 Prerequisites
@@ -77,9 +78,22 @@ and have the following structure:
 
 The script reads the csv files and creates a dictionary linking each inflected form with the basic form and its translation. 
 
-Different csv files could be used, either :
-  * by conforming them to the aforementioned standards
-  * by chaning the script to accurately read them
+Different csv files could be used, by changing the conf.yaml file
+
+#### conf.yaml
+ * Path : path of dictionary files, as different entry, not per file
+
+   For each file :
+ * Filename : name of the file
+ * Category : word category
+ * Delimiter : csv file delimiter
+ * Word : column of basic word
+ * Translation : column of translation
+ * Length : columns per line (used for checking invalid lines)
+ * Inflected: lis of columns whith inflected forms of the basic word
+
+   
+
 
 ### How it works 
 
