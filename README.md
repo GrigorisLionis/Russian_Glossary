@@ -126,3 +126,4 @@ The author has limited knowledge of Russian, and caution is adviced for using th
 * Add usage functionality (what and how to output, paths, csv reading)  and package to an app
 * Generalize to be language agnostic
 * Link to other data sources (eg organic link to wiktionary and not rudimentary)
+* Other platforms
